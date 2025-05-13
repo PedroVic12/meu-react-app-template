@@ -2,13 +2,13 @@ import { StudyBlock } from '../types';
 
 // Map day abbreviations to full day names
 const daysMap: Record<string, string> = {
-  'S': 'Segunda',
-  'T': 'Terça',
-  'Q': 'Quarta',
-  'Q': 'Quinta',
-  'S': 'Sexta',
-  'S': 'Sábado',
-  'D': 'Domingo'
+  'Seg': 'Segunda',
+  'Ter': 'Terça',
+  'Qua': 'Quarta',
+  'Qui': 'Quinta',
+  'Sex': 'Sexta',
+  'Sab': 'Sábado',
+  'Dom': 'Domingo'
 };
 
 // Generate study blocks based on selected days and daily hours
