@@ -53,14 +53,14 @@ const HomePage: React.FC = () => {
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                //justifyContent: "center",
-                alignItems: "center",
+                justifyContent: "center",
+                //alignItems: "center",
                 minHeight: "100vh", // Ocupa toda a altura da tela
-                padding: "24px", // Espaçamento interno
+                padding: "12px 24px", // Espaçamento interno
                 backgroundColor: "#f6f6f6", // Cor de fundo
             }}
         >
-            <Typography variant="h4" gutterBottom>Home Page</Typography>
+            <Typography variant="h3" gutterBottom>Home Page</Typography>
             <Typography paragraph>Welcome to the mobile app template 2025.</Typography>
             <Typography paragraph>Use the buttons below to interact with the app.</Typography>
 
