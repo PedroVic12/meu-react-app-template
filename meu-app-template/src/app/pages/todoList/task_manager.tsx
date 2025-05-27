@@ -36,7 +36,7 @@ import {
     MoreVert as MoreVertIcon,
     Close as CloseIcon,
 } from '@mui/icons-material';
-import SidebarMenu from '../../widgets/side_menu';
+import SidebarMenu from '../side_bar_menu';
 
 // --- Interfaces ---
 interface Task {
