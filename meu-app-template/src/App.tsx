@@ -26,6 +26,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { deepmerge } from '@mui/utils';
 import StockManagerpage from './app/pages/StockManagerPage';
 import AgendaContatosPage from './views/screens/AgendaContatos';
+import GohanTreinamentosHomePage from './app/pages/GohanTreinamentos_page';
 
 
 // --- Toast Notification Context and Provider ---
@@ -865,6 +866,8 @@ const App = () => (
                             <Route path="/profile" element={<ProfilePage />} />
                             <Route path="/settings" element={<SettingsPage />} />
                             <Route path="/workout" element={<WorkoutPage />} />
+                            <Route path="/home" element={<GohanTreinamentosHomePage />} />
+
 
                             
                             {/* <Route path="/agenda" element={<AgendaContatosPage />} /> */}

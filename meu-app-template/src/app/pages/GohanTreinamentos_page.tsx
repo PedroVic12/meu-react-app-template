@@ -16,18 +16,25 @@ import { formatDate } from '../public/utils/dateUtils';
 import { getTaskMessage } from '../public/data/taskMessages';
 import { Task } from '../public/types/Task';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon,IonList, IonItem, IonLabel, IonMenuToggle, IonMenuButton, IonPage, IonMenu,IonTitle, IonToolbar, useIonToast } from '@ionic/react';
-import { refreshOutline } from 'ionicons/icons';
+import { homeOutline, refreshOutline,barbellOutline, settingsOutline, peopleOutline, listOutline, analyticsOutline, notificationsOutline } from 'ionicons/icons';
 import "./appbar.css"
 
 
+/* Páginas */
+import QuizGamePage from '../pages/quizzgame/QuizzGame';
+import AlarmeClockPage from '../pages/clockPage/alarm_clock_page';
+import TaskManagerPage from '../pages/todoList/task_manager';
+import CalisthenicsApp from '../pages/calistenia_app/pages/calistenia_app_mui';
+import MarkdownChecklist from '../pages/CheckListMarkdown/MarkdownCheckList';
+
+
 export const appRoutes = [
-    // { path: '/home', component: GohanTreinamentosHomePage, label: 'Home', icon: homeOutline },
-    // { path: '/calistenia', component: CalisthenicsApp, label: 'Calistenia', icon: barbellOutline },
-    // { path: '/treinos', component: GohanTreinamentosGeradorTreinoPage, label: 'Treinos', icon: settingsOutline },
-    // { path: '/quizz', component: QuizGamePage, label: 'Quizz', icon: peopleOutline },
-    // { path: '/tasks', component: TaskManagerPage, label: 'Tarefas', icon: listOutline },
-    // { path: '/alarme', component: AlarmeClockPage, label: 'Alarme', icon: analyticsOutline },
-    // { path: '/checklist', component: MarkdownChecklist, label: 'Checklist', icon: notificationsOutline },
+    { path: '/home', component: GohanTreinamentosHomePage, label: 'Home', icon: homeOutline },
+    { path: '/calistenia', component: CalisthenicsApp, label: 'Calistenia', icon: barbellOutline },
+     { path: '/quizz', component: QuizGamePage, label: 'Quizz', icon: peopleOutline },
+     { path: '/tasks', component: TaskManagerPage, label: 'Tarefas', icon: listOutline },
+     { path: '/alarme', component: AlarmeClockPage, label: 'Alarme', icon: analyticsOutline },
+     { path: '/checklist', component: MarkdownChecklist, label: 'Checklist', icon: notificationsOutline },
   ];
 
   
