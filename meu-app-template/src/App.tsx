@@ -24,7 +24,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { deepmerge } from '@mui/utils';
-import StockManagerpage from './core/pages/StockManagerPage';
+import StockManagerpage from './app/pages/StockManagerPage';
 import AgendaContatosPage from './views/screens/AgendaContatos';
 
 
