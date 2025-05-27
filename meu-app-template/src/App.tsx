@@ -24,7 +24,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { deepmerge } from '@mui/utils';
-import StockManagerpage from './views/pages/StockManagerPage';
+import StockManagerpage from './core/pages/StockManagerPage';
 import AgendaContatosPage from './views/screens/AgendaContatos';
 
 
@@ -464,7 +464,7 @@ const ExerciseItem: React.FC<ExerciseItemProps> = ({ name, checked, onChange }) 
         <FormControlLabel
             control={<Checkbox checked={checked} onChange={onChange} color="primary" />}
             label={name}
-            sx={{ width: '100%', mb: 1 }}
+            sx={{ width: '200%', mb: 4 }}
         />
     );
 };
