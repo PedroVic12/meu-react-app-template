@@ -9,12 +9,11 @@ import AlarmeClockPage from '../pages/clockPage/alarm_clock_page';
 import TaskManagerPage from '../pages/todoList/task_manager';
 import CalisthenicsApp from '../pages/calistenia_app/pages/calistenia_app_mui';
 import MarkdownChecklist from '../pages/CheckListMarkdown/MarkdownCheckList';
-import GohanTreinamentosHomePage from './GohanTreinamentos_page';
 import React from 'react';
 
 
 export const appRoutes = [
-    { path: '/home', component: GohanTreinamentosHomePage, label: 'Home', icon: homeOutline },
+    //{ path: '/home', component: GohanTreinamentosHomePage, label: 'Home', icon: homeOutline },
     { path: '/calistenia', component: CalisthenicsApp, label: 'Calistenia', icon: barbellOutline },
      { path: '/quizz', component: QuizGamePage, label: 'Quizz', icon: peopleOutline },
      { path: '/tasks', component: TaskManagerPage, label: 'Tarefas', icon: listOutline },

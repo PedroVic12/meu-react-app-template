@@ -32,8 +32,6 @@ import GohanTreinamentosHomePage from './app/pages/GohanTreinamentos_page';
 
 //! Inicio da refatoração em HomePage com foco na arquitetura em todo App.tsx com codigo limpo e separando paginas, utils e widgets
 
-
-// HomePage
 const HomePage: React.FC = () => {
     const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
     const { addToast } = useToast();
@@ -51,20 +49,29 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <Box className="p-16 flex justify-center">
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                //justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100vh", // Ocupa toda a altura da tela
+                padding: "24px", // Espaçamento interno
+                backgroundColor: "#f6f6f6", // Cor de fundo
+            }}
+        >
             <Typography variant="h4" gutterBottom>Home Page</Typography>
             <Typography paragraph>Welcome to the mobile app template 2025.</Typography>
-            <Typography paragraph>From Pedro Victor Veras Software developer.</Typography>
-
             <Typography paragraph>Use the buttons below to interact with the app.</Typography>
 
-            <Typography paragraph>Estou usando esse template para migrar um projeto em Flutter para React com Ionic para React com Vite e com todos os componentes com codigo limpo usando Material UI, Tailiwind e Ionic</Typography>
-
+            <Typography paragraph>
+                Estou usando esse template para migrar um projeto em Flutter para React com Ionic para React com Vite e com todos os componentes com código limpo usando Material UI, Tailwind e Ionic.
+            </Typography>
 
             <Button variant="contained" onClick={handleOpenBottomSheet} className="mb-4">
                 Open Bottom Sheet
             </Button>
-            <Box className="space-x-2">
+            <Box sx={{ display: "flex", gap: "16px" }}>
                 <Button variant="outlined" color="success" onClick={showSuccessToast}>Show Success Toast</Button>
                 <Button variant="outlined" color="error" onClick={showErrorToastWithAction}>Show Error Toast with Action</Button>
             </Box>
@@ -73,11 +80,13 @@ const HomePage: React.FC = () => {
                 <Typography paragraph>It scrolls if needed. Lorem ipsum...</Typography>
                 <Button variant="contained" onClick={handleCloseBottomSheet} className="mt-4">Confirm Action</Button>
             </BottomSheet>
+
+            <br />
+            <Typography variant="h3">From Pedro Victor Veras Software developer.</Typography>
+
         </Box>
     );
 };
-
-
 
 
 //!  import HomePage from "./app/pages/HomePage"
