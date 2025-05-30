@@ -67,7 +67,7 @@ function GohanTreinamentosHomePage() {
   const SnackBar = (message: string, position: 'top' | 'middle' | 'bottom' = 'bottom') => {
     present({
       message: message, // Usa o parâmetro message
-      duration: 2500,
+      duration: 4000,
       position: position,
     });
   };
