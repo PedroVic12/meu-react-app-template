@@ -14,8 +14,6 @@ import {
   Checkbox,
   TextField,
   Button,
-  Icon,
-  Box,
   CircularProgress,
   Divider,
 } from "@mui/material";
@@ -27,7 +25,21 @@ import LinkIcon from "@mui/icons-material/Link";
 import CheckIcon from "@mui/icons-material/Check";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip } from "chart.js";
-import GohanTreinamentosHomePage from "./views/GohanTreinamentosPage";
+
+
+//import GohanTreinamentosHomePage from "./views/GohanTreinamentosPage";
+import dynamic from 'next/dynamic';
+import { setupIonicReact } from '@ionic/react'; // Importe para inicializar o Ionic React
+
+// Configure o Ionic React uma vez no cliente
+setupIonicReact();
+
+// Carregue o componente Ionic dinamicamente, desabilitando o SSR
+const DynamicGohanTreinamentosHomePage = dynamic(
+  () => import("./views/GohanTreinamentosPage"), // Caminho para seu componente Ionic
+  { ssr: false } // ESSENCIAL: Garante que só seja carregado no cliente
+);
+
 // Registrar componentes do Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
@@ -899,21 +911,13 @@ export default function HomePage() {
       case "home":
         return (
           <div className="p-4 bg-white rounded-lg shadow">
-        <h2 className="text-xl font-bold mb-4">📖 Habit Tracker 2025</h2>
-        <p>Controle seus hábitos e produtividade com IA</p>
-        <div className="mt-4">
-          <GohanTreinamentosHomePage />
-        </div>
-        <div className="mt-6 flex justify-end">
-          <a
-            href="/gohan-treinamentos"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-          >
-            Abrir em nova rota
-          </a>
-        </div>
+          <h2 className="text-xl font-bold mb-4">📖 Habit Tracker 2025</h2>
+          <p>Controle seus hábitos e produtividade com IA</p>
+
+          <div className="mt-4">
+            <DynamicGohanTreinamentosHomePage />
+          </div>
+
           </div>
         );
 

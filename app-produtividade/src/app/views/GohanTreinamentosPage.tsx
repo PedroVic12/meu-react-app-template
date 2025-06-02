@@ -108,7 +108,8 @@ function GohanTreinamentosHomePage() {
   return (
     <>
       <title>Gohan Treinamentos 2025</title>
-      <IonPage id="main-content">
+      <div className="appbar-container">
+        <CustomText props={{ text: "Gohan Treinamentos 2025" }} />
 
         <IonHeader mode="ios">
           <IonToolbar color="tertiary" className="custom-toolbar">
@@ -159,7 +160,7 @@ function GohanTreinamentosHomePage() {
             </Container>
           </Box>
         </IonContent>
-      </IonPage>
+      </div>
     </>
   );
 }

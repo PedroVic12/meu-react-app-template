@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { Paper, ListItem, ListItemText, Typography, SxProps, Divider } from '@mui/material';
 import { TaskCounter } from './TaskCounter';
