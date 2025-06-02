@@ -27,18 +27,6 @@ import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip } from "chart.js";
 
 
-//import GohanTreinamentosHomePage from "./views/GohanTreinamentosPage";
-import dynamic from 'next/dynamic';
-import { setupIonicReact } from '@ionic/react'; // Importe para inicializar o Ionic React
-
-// Configure o Ionic React uma vez no cliente
-setupIonicReact();
-
-// Carregue o componente Ionic dinamicamente, desabilitando o SSR
-const DynamicGohanTreinamentosHomePage = dynamic(
-  () => import("./views/GohanTreinamentosPage"), // Caminho para seu componente Ionic
-  { ssr: false } // ESSENCIAL: Garante que só seja carregado no cliente
-);
 
 // Registrar componentes do Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
@@ -913,10 +901,11 @@ export default function HomePage() {
           <div className="p-4 bg-white rounded-lg shadow">
           <h2 className="text-xl font-bold mb-4">📖 Habit Tracker 2025</h2>
           <p>Controle seus hábitos e produtividade com IA</p>
-
+        
+        {/* 
           <div className="mt-4">
             <DynamicGohanTreinamentosHomePage />
-          </div>
+          </div> */}
 
           </div>
         );
