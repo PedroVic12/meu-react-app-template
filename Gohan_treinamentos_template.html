@@ -14,11 +14,11 @@
                 extend: {
                     colors: {
                         background: '#282a36', // Dracula background
-                        foreground: '#f8f8f2', // Dracula text/foreground
+                        foreground: '#f8f8f2', // Dracula text/foreground (acting as "white")
                         primary: '#bd93f9', // Dracula purple for primary actions/accents
                         secondary: '#6272a4', // Dracula comment color for subtle elements
                         accentGreen: '#50fa7b', // Dracula green
-                        accentRed: '#ff5555', // Dracula red
+                        accentRed: '#ff5555', // Dracula red (acting as "grená")
                         accentYellow: '#f1fa8c', // Dracula yellow
                         accentCyan: '#8be9fd', // Dracula cyan
                         accentOrange: '#ffb86c', // Dracula orange
@@ -67,6 +67,7 @@
 
     <script type="text/babel">
         // Helper component for section titles
+        // Reusable component for consistent section headings
         function SectionTitle({ iconClass, title }) {
             return (
                 <h2 className="text-2xl font-bold text-primary mb-4 flex items-center">
@@ -75,7 +76,19 @@
             );
         }
 
+        // Card component for displaying structured information
+        // Reusable component for various card-like displays
+        function InfoCard({ title, children, className = "" }) {
+            return (
+                <div className={`bg-secondary p-6 rounded-lg shadow-md border border-currentLine ${className}`}>
+                    <h3 className="font-semibold text-primary mb-2">{title}</h3>
+                    {children}
+                </div>
+            );
+        }
+
         // App Header Component
+        // Reusable header component for application
         function AppHeader() {
             return (
                 <header className="bg-currentLine border-b border-background shadow-lg mb-6 rounded-t-lg">
@@ -92,7 +105,30 @@
             );
         }
 
+        // Custom Snackbar/Alert Component
+        // This replaces Material-UI's Snackbar and Alert functionality
+        // Reusable notification component
+        function CustomSnackbar({ message, type, open, onClose }) {
+            const bgColor = type === 'success' ? 'bg-accentGreen' : 'bg-accentRed';
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark';
+
+            if (!open) return null;
+
+            return (
+                <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
+                    <div className={`${bgColor} text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3 transform transition-transform duration-300 ease-out scale-100`}>
+                        <i className={`fas ${icon}`}></i>
+                        <span>{message}</span>
+                        <button onClick={onClose} className="ml-auto focus:outline-none">
+                            <i className="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
         // Tech Stack Section Component
+        // Dedicated component for Tech Stack
         function TechStackSection() {
             const techStack = {
                 frontend: ['React', 'Vite', 'Tailwind CSS', 'Material UI'],
@@ -106,37 +142,34 @@
                 <div className="bg-secondary p-6 rounded-lg shadow-md mb-6 border border-currentLine">
                     <SectionTitle iconClass="fas fa-code" title="🔧 Tech Stack" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-currentLine p-4 rounded-md">
-                            <h3 className="font-semibold text-accentGreen mb-2">Frontend</h3>
+                        <InfoCard title="Frontend" className="bg-currentLine">
                             <ul className="list-disc list-inside text-gray-300">
                                 {techStack.frontend.map((tech, index) => <li key={index}>{tech}</li>)}
                             </ul>
-                        </div>
-                        <div className="bg-currentLine p-4 rounded-md">
-                            <h3 className="font-semibold text-accentGreen mb-2">Backend & Automação</h3>
+                        </InfoCard>
+                        <InfoCard title="Backend & Automação" className="bg-currentLine">
                             <ul className="list-disc list-inside text-gray-300">
                                 {techStack.backend.map((tech, index) => <li key={index}>{tech}</li>)}
                                 {techStack.automation.map((tech, index) => <li key={index}>{tech}</li>)}
                             </ul>
-                        </div>
-                        <div className="bg-currentLine p-4 rounded-md">
-                            <h3 className="font-semibold text-accentGreen mb-2">Mobile</h3>
+                        </InfoCard>
+                        <InfoCard title="Mobile" className="bg-currentLine">
                             <ul className="list-disc list-inside text-gray-300">
                                 {techStack.mobile.map((tech, index) => <li key={index}>{tech}</li>)}
                             </ul>
-                        </div>
-                        <div className="bg-currentLine p-4 rounded-md">
-                            <h3 className="font-semibold text-accentGreen mb-2">Estudos Técnicos</h3>
+                        </InfoCard>
+                        <InfoCard title="Estudos Técnicos" className="bg-currentLine">
                             <ul className="list-disc list-inside text-gray-300">
                                 {techStack.studies.map((tech, index) => <li key={index}>{tech}</li>)}
                             </ul>
-                        </div>
+                        </InfoCard>
                     </div>
                 </div>
             );
         }
 
         // Projects Section Component
+        // Dedicated component for Projects
         function ProjectsSection() {
             const projects = [
                 { name: 'App de Delivery com PDV', status: 'Em Desenvolvimento', notes: 'Integração de APIs, Frontend React.' },
@@ -166,6 +199,7 @@
         }
 
         // Studies Section Component
+        // Dedicated component for Studies
         function StudiesSection() {
             const studies = [
                 { name: 'Circuitos Elétricos', icon: 'fa-bolt' },
@@ -190,25 +224,109 @@
             );
         }
 
+        // Level Progress Chart Component
+        // New component for visual XP and Level progression
+        function LevelProgressChart({ currentXp, level, xpToNextLevel, levelNames }) {
+            const maxLevelXp = level === levelNames.length - 1 ? currentXp : xpToNextLevel; 
+            const progressPercentage = maxLevelXp > 0 ? (currentXp / maxLevelXp) * 100 : 0;
+            const currentLevelName = levelNames[level] || 'Desconhecido';
+
+            return (
+                <div className="bg-secondary p-6 rounded-lg shadow-md mb-6 border border-currentLine text-center">
+                    <SectionTitle iconClass="fas fa-star" title="Seu Nível de Organização" />
+                    <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 mb-6">
+                        <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center bg-currentLine border-4 border-primary shadow-lg">
+                            <span className="text-4xl sm:text-5xl font-extrabold text-accentYellow">
+                                {level + 1}
+                            </span>
+                            <div className="absolute -bottom-2 px-3 py-1 bg-primary text-white text-xs sm:text-sm font-semibold rounded-full shadow-md">
+                                {currentLevelName}
+                            </div>
+                        </div>
+                        <div className="flex-1 w-full sm:w-auto max-w-sm">
+                            <p className="text-2xl font-bold text-foreground mb-2">XP: <span className="text-accentGreen">{currentXp}</span> / <span className="text-foreground">{maxLevelXp}</span></p>
+                            <div className="w-full bg-currentLine rounded-full h-5 mb-3 shadow-inner">
+                                <div
+                                    className="bg-gradient-to-r from-accentGreen to-primary h-full rounded-full transition-all duration-700 ease-in-out shadow-md"
+                                    style={{ width: `${progressPercentage}%` }}
+                                ></div>
+                            </div>
+                            {level < levelNames.length - 1 && (
+                                <p className="text-sm text-gray-400">Próximo Nível: <span className="font-semibold text-accentCyan">{levelNames[level + 1]}</span> (faltam <span className="font-bold text-accentRed">{xpToNextLevel - currentXp} XP</span>)</p>
+                            )}
+                            {level === levelNames.length - 1 && (
+                                <p className="text-sm text-gray-400 font-bold text-accentGreen">Você atingiu o nível máximo! Mestre JEDI da Organização!</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         // Routine and Basic Finance Section Component
-        function RoutineAndFinanceSection() {
+        // Dedicated component for Routine and Finance
+        function RoutineAndFinanceSection({ dailyWins, setDailyWins, onAddWin, onUpdateWin, onRemoveWin }) {
             const [monthlyIncome, setMonthlyIncome] = React.useState('');
             const [fixedExpenses, setFixedExpenses] = React.useState('');
             const [variableExpenses, setVariableExpenses] = React.useState('');
-            const [dailyWins, setDailyWins] = React.useState([]);
-            const [newWin, setNewWin] = React.useState('');
+            const [newWinText, setNewWinText] = React.useState('');
+            const [editingWinId, setEditingWinId] = React.useState(null);
+            const [openSnackbar, setOpenSnackbar] = React.useState(false);
+            const [snackbarMessage, setSnackbarMessage] = React.useState('');
+            const [snackbarType, setSnackbarType] = React.useState('success');
 
             const powerPhrase = "Quem organiza sua mente, organiza o mundo ao seu redor. O caos é o campo de batalha do criador.";
 
-            const handleAddWin = () => {
-                if (newWin.trim()) {
-                    setDailyWins([...dailyWins, { id: Date.now(), text: newWin }]);
-                    setNewWin('');
-                }
+            const showSnackbar = (message, type = 'success') => {
+                setSnackbarMessage(message);
+                setSnackbarType(type);
+                setOpenSnackbar(true);
             };
 
-            const handleRemoveWin = (id) => {
+            const handleCloseSnackbar = () => {
+                setOpenSnackbar(false);
+            };
+
+            const handleAddOrUpdateWin = () => {
+                if (newWinText.trim() === '') {
+                    showSnackbar('A vitória diária não pode estar vazia.', 'error');
+                    return;
+                }
+
+                if (editingWinId !== null) {
+                    // Update existing win
+                    const updatedWins = dailyWins.map(win =>
+                        win.id === editingWinId ? { ...win, text: newWinText } : win
+                    );
+                    setDailyWins(updatedWins);
+                    showSnackbar('Vitória diária atualizada com sucesso!');
+                    setEditingWinId(null);
+                } else {
+                    // Add new win
+                    const newWin = { id: Date.now(), text: newWinText };
+                    setDailyWins([...dailyWins, newWin]);
+                    showSnackbar('Vitória diária adicionada! Você ganhou XP!');
+                }
+                setNewWinText('');
+            };
+
+            const handleEditWin = (win) => {
+                setNewWinText(win.text);
+                setEditingWinId(win.id);
+            };
+
+            const handleCancelEdit = () => {
+                setNewWinText('');
+                setEditingWinId(null);
+            };
+
+            const handleDeleteWin = (id) => {
                 setDailyWins(dailyWins.filter(win => win.id !== id));
+                if (editingWinId === id) {
+                    setEditingWinId(null);
+                    setNewWinText('');
+                }
+                showSnackbar('Vitória diária removida.');
             };
 
             const formatCurrencyInput = (value) => {
@@ -236,28 +354,43 @@
                         </div>
                         <div className="mt-auto pt-4 border-t border-currentLine">
                             <h3 className="font-semibold text-primary mb-2">Vitórias Diárias:</h3>
-                            <div className="flex mb-2">
+                            <div className="flex flex-col sm:flex-row gap-2 mb-2">
                                 <input
                                     type="text"
-                                    placeholder="Adicionar vitória do dia"
-                                    value={newWin}
-                                    onChange={(e) => setNewWin(e.target.value)}
-                                    className="flex-1 p-2 border border-gray-600 bg-gray-800 text-foreground rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary"
+                                    placeholder="Adicionar ou editar vitória"
+                                    value={newWinText}
+                                    onChange={(e) => setNewWinText(e.target.value)}
+                                    className="flex-1 p-2 border border-gray-600 bg-gray-800 text-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-primary w-full"
                                 />
-                                <button
-                                    onClick={handleAddWin}
-                                    className="bg-primary text-white px-4 py-2 rounded-r-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition duration-200 ease-in-out"
-                                >
-                                    Add
-                                </button>
+                                <div className="flex gap-2 w-full sm:w-auto">
+                                    <button
+                                        onClick={handleAddOrUpdateWin}
+                                        className="flex-1 bg-primary text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition duration-200 ease-in-out"
+                                    >
+                                        {editingWinId !== null ? 'Atualizar' : 'Adicionar'}
+                                    </button>
+                                    {editingWinId !== null && (
+                                        <button
+                                            onClick={handleCancelEdit}
+                                            className="flex-1 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition duration-200 ease-in-out"
+                                        >
+                                            Cancelar
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                             <ul className="space-y-1">
                                 {dailyWins.map(win => (
                                     <li key={win.id} className="flex items-center justify-between bg-currentLine p-2 rounded-md text-gray-300">
                                         {win.text}
-                                        <button onClick={() => handleRemoveWin(win.id)} className="text-gray-500 hover:text-accentRed ml-2">
-                                            <i className="fas fa-times text-xs"></i>
-                                        </button>
+                                        <div>
+                                            <button onClick={() => handleEditWin(win)} className="text-gray-500 hover:text-accentCyan mr-2 p-1 rounded-full hover:bg-gray-700 transition duration-200">
+                                                <i className="fas fa-edit text-xs"></i>
+                                            </button>
+                                            <button onClick={() => handleDeleteWin(win.id)} className="text-gray-500 hover:text-accentRed p-1 rounded-full hover:bg-gray-700 transition duration-200">
+                                                <i className="fas fa-trash-alt text-xs"></i>
+                                            </button>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
@@ -322,14 +455,127 @@
                             </p>
                         </div>
                     </div>
+                    <CustomSnackbar
+                        message={snackbarMessage}
+                        type={snackbarType}
+                        open={openSnackbar}
+                        onClose={handleCloseSnackbar}
+                    />
                 </div>
             );
         }
+
+        // New component for Spiritual and Physical Rewards
+        function SpiritualAndPhysicalRewardSection() {
+            return (
+                <div className="bg-secondary p-6 rounded-lg shadow-md mb-6 border border-currentLine">
+                    <SectionTitle iconClass="fas fa-trophy" title="5. Recompensa Espiritual e Física" />
+                    <ul className="list-disc list-inside space-y-2 text-foreground">
+                        <li>A cada <span className="font-bold text-accentGreen">1 dia sem usar: ganhe 1 ponto</span></li>
+                        <li>A cada <span className="font-bold text-accentYellow">5 pontos: recompensa</span> (pode ser um game, comida favorita, etc)</li>
+                        <li>A cada <span className="font-bold text-accentCyan">21 dias: novo upgrade de hábito!</span></li>
+                    </ul>
+                </div>
+            );
+        }
+
+        // New component for Anti-Recidivism Mantra
+        function AntiRecidivismMantraSection() {
+            return (
+                <div className="bg-secondary p-6 rounded-lg shadow-md mb-6 border border-currentLine text-center">
+                    <SectionTitle iconClass="fas fa-shield-alt" title="6. Tenha um mantra fixo contra recaída" />
+                    <p className="text-xl italic font-bold text-accentOrange leading-relaxed">
+                        "Não vim ao mundo para me esconder, vim para brilhar como Steve Jobs e lutar como Goku."
+                    </p>
+                </div>
+            );
+        }
+
 
         // Main App Component
         function App() {
             // State for Markdown content in the editor
             const [markdownContent, setMarkdownContent] = React.useState('');
+            // State for Daily Wins
+            const [dailyWins, setDailyWins] = React.useState([
+                { id: 1, text: 'Grow Mindset' },
+                { id: 2, text: 'Money' },
+                { id: 3, text: 'Criatividade' },
+            ]);
+
+            // XP and Level System states
+            const XP_PER_WIN = 20; // XP gained per daily win
+            // Level thresholds are the minimum XP to reach that level
+            const LEVEL_THRESHOLDS = [0, 100, 200, 300, 400]; 
+            const LEVEL_NAMES = ['Iniciante', 'Aprendiz', 'Mestre', 'Grão-Mestre', 'JEDI'];
+
+            const calculateXpAndLevel = React.useCallback((wins) => {
+                const currentXp = wins.length * XP_PER_WIN;
+                let currentLevel = 0;
+                let xpToNextLevel = LEVEL_THRESHOLDS[1]; // Default for level 0
+
+                for (let i = 0; i < LEVEL_THRESHOLDS.length; i++) {
+                    if (currentXp >= LEVEL_THRESHOLDS[i]) {
+                        currentLevel = i;
+                    } else {
+                        break;
+                    }
+                }
+                
+                if (currentLevel < LEVEL_NAMES.length - 1) { // If not at max level
+                    xpToNextLevel = LEVEL_THRESHOLDS[currentLevel + 1];
+                } else { // At max level (JEDI)
+                    xpToNextLevel = currentXp; // XP to next level is current XP if maxed out
+                }
+
+                return { currentXp, currentLevel, xpToNextLevel };
+            }, [XP_PER_WIN, LEVEL_THRESHOLDS, LEVEL_NAMES.length]);
+
+            const { currentXp, currentLevel, xpToNextLevel } = calculateXpAndLevel(dailyWins);
+            const [lastLevelUpXp, setLastLevelUpXp] = React.useState(currentXp);
+            const [openSnackbar, setOpenSnackbar] = React.useState(false);
+            const [snackbarMessage, setSnackbarMessage] = React.useState('');
+            const [snackbarType, setSnackbarType] = React.useState('success');
+
+            const showSnackbar = (message, type = 'success') => {
+                setSnackbarMessage(message);
+                setSnackbarType(type);
+                setOpenSnackbar(true);
+            };
+
+            const handleCloseSnackbar = () => {
+                setOpenSnackbar(false);
+            };
+
+            // Effect to check for level up
+            React.useEffect(() => {
+                // Only check for level up if XP has increased
+                if (currentXp > lastLevelUpXp) {
+                    const { currentLevel: oldLevel } = calculateXpAndLevel(dailyWins.slice(0, dailyWins.length - 1));
+                    if (currentLevel > oldLevel) {
+                        showSnackbar(`Parabéns! Você alcançou o Nível ${LEVEL_NAMES[currentLevel]}!`, 'success');
+                    }
+                }
+                setLastLevelUpXp(currentXp); // Update last XP after any change
+            }, [currentXp, currentLevel, lastLevelUpXp, dailyWins, calculateXpAndLevel, LEVEL_NAMES]);
+
+
+            // Handlers for Daily Wins in RoutineAndFinanceSection
+            // These handlers now directly update the dailyWins state in App component
+            const handleAddWin = (newWin) => {
+                setDailyWins((prevWins) => [...prevWins, newWin]);
+            };
+
+            const handleUpdateWin = (updatedWin) => {
+                setDailyWins((prevWins) =>
+                    prevWins.map((win) => (win.id === updatedWin.id ? updatedWin : win))
+                );
+            };
+
+            const handleRemoveWin = (idToRemove) => {
+                setDailyWins((prevWins) => prevWins.filter((win) => win.id !== idToRemove));
+            };
+
 
             // Example Markdown Templates for easy access
             const readmeTemplate = `# README.md
@@ -520,7 +766,7 @@
                                     </div>
 
                                     <h3 className="font-semibold text-primary mb-2">Prévia do Markdown:</h3>
-                                    <div className="bg-currentLine p-4 rounded-md min-h-[150px] overflow-auto border border-gray-700">
+                                    <div className="bg-currentLine p-4 rounded-md min-h-[150px] max-h-96 overflow-y-auto border border-gray-700"> {/* Added max-h-96 and overflow-y-auto */}
                                         {markdownContent ? (
                                             <div dangerouslySetInnerHTML={renderMarkdown(markdownContent)} className="prose prose-invert max-w-none text-foreground"></div>
                                         ) : (
@@ -535,7 +781,27 @@
                         <TechStackSection />
                         <ProjectsSection />
                         <StudiesSection />
-                        <RoutineAndFinanceSection />
+                        <RoutineAndFinanceSection
+                            dailyWins={dailyWins}
+                            setDailyWins={setDailyWins}
+                            onAddWin={handleAddWin} // Pass down handleAddWin
+                            onUpdateWin={handleUpdateWin} // Pass down handleUpdateWin
+                            onRemoveWin={handleRemoveWin} // Pass down handleRemoveWin
+                        />
+
+                        {/* Spiritual and Physical Reward Section */}
+                        <SpiritualAndPhysicalRewardSection />
+
+                        {/* Level Progress Chart - Now dynamically updated */}
+                        <LevelProgressChart
+                            currentXp={currentXp}
+                            level={currentLevel}
+                            xpToNextLevel={xpToNextLevel}
+                            levelNames={LEVEL_NAMES}
+                        />
+
+                        {/* Anti-Recidivism Mantra Section */}
+                        <AntiRecidivismMantraSection />
 
                         {/* Tools and Power Phrase Sections */}
                         <div className="bg-secondary p-6 rounded-lg shadow-md mb-6 border border-currentLine text-center">
@@ -543,44 +809,40 @@
                                 <i className="fas fa-rocket mr-3 text-accentCyan"></i> Ferramentas de Apoio
                             </h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
-                                <div className="bg-currentLine p-4 rounded-md">
-                                    <h3 className="font-semibold text-accentGreen mb-1">Markdown</h3>
+                                <InfoCard title="Markdown" className="bg-currentLine">
                                     <p className="text-sm text-gray-400">Planejamento diário, estudos, metas, checklists.</p>
-                                </div>
-                                <div className="bg-currentLine p-4 rounded-md">
-                                    <h3 className="font-semibold text-accentGreen mb-1">Planilha (Google Sheets)</h3>
+                                </InfoCard>
+                                <InfoCard title="Planilha (Google Sheets)" className="bg-currentLine">
                                     <p className="text-sm text-gray-400">Controle financeiro, rotina semanal, vitórias diárias.</p>
-                                </div>
-                                <div className="bg-currentLine p-4 rounded-md">
-                                    <h3 className="font-semibold text-accentGreen mb-1">ClickUp</h3>
+                                </InfoCard>
+                                <InfoCard title="ClickUp" className="bg-currentLine">
                                     <p className="text-sm text-gray-400">Gerenciamento de projetos (Programação, TCC, ONS, Estudo, Espiritual).</p>
-                                </div>
-                                <div className="bg-currentLine p-4 rounded-md">
-                                    <h3 className="font-semibold text-accentGreen mb-1">VSCode + GitHub</h3>
+                                </InfoCard>
+                                <InfoCard title="VSCode + GitHub" className="bg-currentLine">
                                     <p className="text-sm text-gray-400">Projetos e versionamento de código (JS, Python, etc).</p>
-                                </div>
-                                <div className="bg-currentLine p-4 rounded-md">
-                                    <h3 className="font-semibold text-accentGreen mb-1">Notion (Opcional)</h3>
-                                    <p className="text-sm text-gray-400">Visão geral de vida, portfólio pessoal e leitura organizada.</p>
-                                </div>
+                                </InfoCard>
+                                <InfoCard title="Notion (Opcional)" className="bg-currentLine">
+                                    <p className="text-sm text-gray-400">Visão geral de vida de vida, portfólio pessoal e leitura organizada.</p>
+                                </InfoCard>
                             </div>
                         </div>
-
-                        <div className="bg-secondary p-6 rounded-lg shadow-md border border-currentLine text-center">
-                            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center justify-center">
-                                <i className="fas fa-fire-alt mr-3 text-accentYellow"></i> Frase de Poder do Dia
-                            </h2>
-                            <p className="text-xl italic text-foreground">
-                                "Quem organiza sua mente, organiza o mundo ao seu redor. O caos é o campo de batalha do criador."
-                            </p>
-                        </div>
                     </div>
+                    {/* Snackbar for general notifications */}
+                    <CustomSnackbar
+                        message={snackbarMessage}
+                        type={snackbarType}
+                        open={openSnackbar}
+                        onClose={handleCloseSnackbar}
+                    />
                 </div>
             );
         }
 
         // Render the App component into the root div
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+        // Ensure ReactDOM is fully loaded before attempting to render
+        window.onload = function() {
+            ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+        };
     </script>
 </body>
 </html>
